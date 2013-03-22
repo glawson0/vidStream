@@ -26,6 +26,7 @@ gem 'therubyracer'
 gem 'devise'
 gem 'haml-rails'
 gem 'mongoid',"~> 3.0.0"
+gem 'bootstrap-sass'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
