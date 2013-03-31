@@ -8,19 +8,27 @@
 
 
 
+
+</head>
+<body>
+
   <div id="user_nav">
+	<ul id="nav">
+    	<li><a href="#">Home</a></li>
+        <li><a href="#">Streams</a></li>
+        <li><a href="#">About</a></li>
+    </ul> 
+    <p style="margin-top:5px; margin-right:10px;">
+	
     <% if user_signed_in? %>
       Signed in as <%= current_user.email %>. Not you?
       <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
     <% else %>
       <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
     <% end %>
+	</p>
   </div>
-
-
-</head>
-<body>
-
+  
 <%= yield %>
 
 </body>
