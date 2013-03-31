@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tubulator</title>
+  <link href="/assets/application.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<link href="/assets/home.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<link href="/assets/streams.css?body=1" media="all" rel="stylesheet" type="text/css" />
+  <script src="/assets/common/underscore.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+<script src="/assets/common/VidController.js?body=1" type="text/javascript"></script>
+<script src="/assets/common/backbone.js?body=1" type="text/javascript"></script>
+<script src="/assets/common/jquery-1.8.3.min.js?body=1" type="text/javascript"></script>
+<script src="/assets/common/swfobject.js?body=1" type="text/javascript"></script>
+<script src="/assets/home.js?body=1" type="text/javascript"></script>
+<script src="/assets/widgets/models/streamloader.js?body=1" type="text/javascript"></script>
+<script src="/assets/widgets/views/streamloader.js?body=1" type="text/javascript"></script>
+<script src="/assets/streams.js?body=1" type="text/javascript"></script>
+<script src="/assets/application.js?body=1" type="text/javascript"></script>
+<style type="text/css">
+/* make it pretty */
+body{
+	margin-top:50px;	
+}
+#streams{
+	width:60%;
+	margin:0 auto;	
+	background:white;
+}
+.baxes{
+	width:100%;
+	height:75px;
+	border:solid black 2px;	
+}
+.bigbox{
+	width:100%;
+	height:500px;
+	border:solid black 2px;	
+}
+#user_nav p a{
+	color:gray;
+	text-decoration:none;
+	border-bottom:dotted 1px gray;	
+}
+#user_nav a:hover{
+	font-weight:bold;
+}
+#user_nav{
+	position:fixed;
+	width:100%;
+	height:30px;
+	padding:5px;
+	color:white;
+	background:black;	
+	margin:0px;
+	font-size:16px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:right;
+	left:0; top: 0;
+}
+#user_nav ul#nav  {
+	float:left;
+	width:40em;
+	padding:0;
+	margin:0;
+	list-style-type:none;
+}
+ul#nav li a{float:left; width:6em; height:100%; border-right: dotted white 1px; text-align:center;
+margin-top:5px; color:white; text-decoration:none;}
+ul#nav li a:hover{font-weight:bold;}
+</style>
+</head>
+<body>
+<div id="user_nav">
+	<ul id="nav">
+    	<li><a href="#">Home</a></li>
+        <li><a href="#">Streams</a></li>
+        <li><a href="#">About</a></li>
+    </ul> 
+    <p style="margin-top:5px; margin-right:10px;">Signed in as jakechs@gmail.com. Not you? <a href="http://129.65.184.201/users/sign_out" data-method="delete" rel="nofollow">Sign out</a></p></div>
+<div id="content">
+<div id="newstream">
+	<input type="button" value="Create New Playlist" name="createnew" id="createnew"/>
+	<div id="createbox">
+    	<form>
+        	<label for="name">Name:</label>
+            	<input name="name" type="text" />
+            
+        	<input name="addvid" type="text" />
+        	<label for="vid">
+            	<textarea name="vid">
+                </textarea>
+            </label>
+        </form>
+    </div>
+</div>
+<div id="streams">
+	<div class="baxes" id="s1">
+    </div>
+	<div class="baxes" id="s2">
+    </div>
+	<div class="baxes" id="s3">
+    </div>
+	<div class="baxes" id="s4">
+    </div>
+</div>
+</div>
+<script>
+$(document).ready(function() {
+	$('.baxes').click(function(){
+		$('#'+event.target.id).toggleClass('bigbox').promise().done(function(){
+			if($('#'+event.target.id).attr('class') == 'baxes'){
+				unloadContent(event.target.id);	
+			}else{
+				loadContent(event.target.id);
+			}
+		});
+		/*
+		if($('#'+event.target.id).css('height') > 100){
+			unloadContent(event.target.id);
+			$('#'+event.target.id).animate({height:75}, 1000);
+		}else{
+			$('#'+event.target.id).animate({height:500}, 1000, loadContent(event.target.id));
+		}*/
+	});
+	$('#createnew').click(function(){
+		$('#createbox').toggle(showOrHide);
+	});
+});
+
+function loadContent(id){
+	var html;
+	html = '';
+	html += '<img src="http://img.youtube.com/vi/'+id+'/0.jpg" />';
+	$('#'+event.target.id).html(html);
+}
+function unloadContent(){
+	$('#'+event.target.id).html('');
+}
+</script>
+</body>
+</html>
