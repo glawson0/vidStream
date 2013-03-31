@@ -1,11 +1,10 @@
 #content
   -if user_signed_in? 
     Signed in as... #{current_user.email}
-    
-  
   -else
     %h1 not logged in
 
   %h1.id #{get_user_id}
-  -#%script{:type => 'text/javascript'}
-    var label=document.getElementById("id")
+  %script{:type => 'text/javascript'}
+    var model= getstreamloaderModel();
+    var view= getstreamloaderView();

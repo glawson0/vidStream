@@ -1,4 +1,8 @@
+@getstreamloaderModel=() ->
+  new streamloaderModel()
+
 class streamloaderModel extends Backbone.Model
 
-  streams=[]
+  constructor: ()->
+    super()
 
