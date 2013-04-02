@@ -1,10 +1,31 @@
 #content
-  -if user_signed_in? 
-    Signed in as... #{current_user.email}
-  -else
-    %h1 not logged in
 
-  %h1.id #{get_user_id}
+  #createStream
+    %button#makenew Create New Stream
+    %form#addDeets
+      %label Name:
+      %input.title
+      %br/
+      %label Videos:
+      %textarea.vids
+      %br
+      %button.done#cancel Cancel
+      %button.done#create Create
+
   %script{:type => 'text/javascript'}
+    
+    $('#addDeets').hide();
+    $('#makenew').click(function (){
+    $('#makenew').hide();
+    $('#addDeets').show(200);
+    });
+    $('#cancel').click(function(){
+    $('#addDeets').hide();
+    $('#makenew').show(80);
+    });
+    $('#create').click(function(){
+    $('#addDeets').hide();
+    $('#makenew').show(80);
+    });
     var model= getstreamloaderModel();
-    var view= getstreamloaderView();
+    -#var view= getstreamloaderView();
