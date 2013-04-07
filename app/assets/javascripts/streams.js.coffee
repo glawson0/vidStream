@@ -7,4 +7,6 @@
 //= require common/VidController
 //= require common/jquery-1.8.3.min
 //= require widgets/models/streamloader
-//= require widgets/views/streamloader
+//= require widgets/views/streamloaderView
+//= require common/urlParse
+//= require streams/streamsMethods

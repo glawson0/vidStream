@@ -3,6 +3,8 @@
 
 class streamloaderModel extends Backbone.Model
 
-  constructor: ()->
-    super()
+  @initialize: ()->
+    
 
+  @getVideo: ()->
+    "dongles"

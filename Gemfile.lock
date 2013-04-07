@@ -139,6 +139,7 @@ DEPENDENCIES
   execjs
   haml-rails
   jquery-rails
+  json
   mongoid (~> 3.0.0)
   rails (= 3.2.3)
   sass-rails (~> 3.2.3)

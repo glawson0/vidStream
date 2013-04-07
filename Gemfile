@@ -27,6 +27,7 @@ gem 'devise'
 gem 'haml-rails'
 gem 'mongoid',"~> 3.0.0"
 gem 'bootstrap-sass'
+gem 'json'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

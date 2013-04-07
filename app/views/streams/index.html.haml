@@ -1,31 +1,38 @@
+%script#stream_template{:type => 'text/template'}
+  %h1#title doop
+
 #content
 
   #createStream
     %button#makenew Create New Stream
     %form#addDeets
       %label Name:
-      %input.title
+      %input#title
       %br/
       %label Videos:
-      %textarea.vids
+      %textarea#vids
       %br
       %button.done#cancel Cancel
       %button.done#create Create
+  %h1#message{:color => 'red'}
 
+  #streams
   %script{:type => 'text/javascript'}
     
     $('#addDeets').hide();
     $('#makenew').click(function (){
     $('#makenew').hide();
     $('#addDeets').show(200);
+    $('#message').text("");
     });
     $('#cancel').click(function(){
     $('#addDeets').hide();
     $('#makenew').show(80);
+    $('#message').text("");
+    return false
     });
     $('#create').click(function(){
-    $('#addDeets').hide();
-    $('#makenew').show(80);
+    createStream();
+    return false;
     });
-    var model= getstreamloaderModel();
-    -#var view= getstreamloaderView();
+    var SLV = new streamloaderView({el: $('#streams')});

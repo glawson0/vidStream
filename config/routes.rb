@@ -15,7 +15,8 @@ Website::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
   match 'streams' => 'streams#index'
 
-  match 'streams/:user/:name/:videos' =>'Streams#create_stream'
+  match ':controller/get_user_id' 
+  match ':controller/create_stream'
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
