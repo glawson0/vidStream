@@ -1,6 +1,3 @@
-%script#stream_template{:type => 'text/template'}
-  %h1#title doop
-
 #content
 
   #createStream
@@ -17,6 +14,12 @@
   %h1#message{:color => 'red'}
 
   #streams
+  #ytplayer
+    
+  %script#stream_template{:type => 'text/template'}
+    %h1#title doop
+
+
   %script{:type => 'text/javascript'}
     
     $('#addDeets').hide();
@@ -35,4 +38,9 @@
     createStream();
     return false;
     });
-    var SLV = new streamloaderView({el: $('#streams')});
+    function insertPlayer(id){
+    var params = {allowScriptAccess: "always" };
+    var atts = {id : "myytplayer", };
+    swfobject.embedSWF("http://www.youtube.com/v/V6V9gpXZgvo&enablejsapi=1&playerapiid=ytplayer", id, "425", "365", "8", null, null, params, atts);
+    };
+    var SLV = new streamloaderView({'el': $('#streams'),'template':$('stream_template'), 'fun': insertPlayer});
