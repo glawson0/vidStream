@@ -11,7 +11,6 @@ class @streamloaderView extends Backbone.View
       atts = {"id" : "myytplayer" }
       $(@el).append '<ul id="temp"><li>Hello, Backbone!</li></ul>'
       $(@el).append (@options.template)
-      alert (@options.template)
       @options.fun('ytplayer')
       $.getScript('swfobject.js', loaded: ->
          swfobject.embededSWF("http://www.youtube.com/v/V6V9gpXZgvo&enablejsapi=1&playerapiid=ytplayer", "ytplayer", "425", "365", "8", null, null, params, atts)

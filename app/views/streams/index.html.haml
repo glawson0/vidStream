@@ -12,10 +12,13 @@
       %button.done#cancel Cancel
       %button.done#create Create
   %h1#message{:color => 'red'}
-
+  #test
   #streams
-  #ytplayer
-    
+    #s1.baxes 
+    #s2.baxes
+    #s3.baxes 
+    #s4.baxes 
+
   %script#stream_template{:type => 'text/template'}
     %h1#title doop
 
@@ -43,4 +46,27 @@
     var atts = {id : "myytplayer", };
     swfobject.embedSWF("http://www.youtube.com/v/V6V9gpXZgvo&enablejsapi=1&playerapiid=ytplayer", id, "425", "365", "8", null, null, params, atts);
     };
-    var SLV = new streamloaderView({'el': $('#streams'),'template':$('stream_template'), 'fun': insertPlayer});
+    var SLV = new streamloaderView({'el': $('#test'),'template':$('stream_template'), 'fun': insertPlayer});
+    $(document).ready(function() {
+    $('.baxes').click(function(event){
+    if(event.target.class!='bigbox'){
+    unloadContent($('.bigbox').attr('id'));
+    $('.bigbox').toggleClass('bigbox').promise();
+    $(event.target).toggleClass('bigbox').promise().done(function(){
+    loadContent(event.target.id,event);
+    });
+    }
+    });
+    });
+    function loadContent(id,event){
+    var html;
+    html = '';
+    html += '<div id="player" />';
+    $('#'+event.target.id).html(html);
+    var params = {allowScriptAccess: "always" };
+    var atts = {id : "myytplayer", };
+    swfobject.embedSWF("http://www.youtube.com/v/V6V9gpXZgvo&enablejsapi=1&playerapiid=ytplayer", "player", "425", "365", "8", null, null, params, atts);
+    }
+    function unloadContent(id){
+    $('#'+id).html('');
+    }
