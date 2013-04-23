@@ -13,6 +13,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-
+#ignore passenger logs
+/config/passenger*
+/config/environments/passenger*
 # ignore databse connection file
 /config/mongoid.yml

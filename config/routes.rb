@@ -1,6 +1,6 @@
 Website::Application.routes.draw do
-  devise_for :users
-
+ 
+  devise_for :users 
   get "home/index"
 
   # The priority is based upon order of creation:
@@ -17,6 +17,9 @@ Website::Application.routes.draw do
 
   match ':controller/get_user_id' 
   match ':controller/create_stream'
+  match ':controller/get_streams'
+  match ':controller/rec_vids'
+  match ':controller/get_vids'
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

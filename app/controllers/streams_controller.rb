@@ -3,12 +3,32 @@ ActionController::Base.logger = Logger.new(STDOUT)
 require 'open-uri'
 before_filter :require_login
 
+def get_vids (name)
+   user= current_user.email
+   name= params[:name]
+   stream=Stream.where({:_id =>{:u =>user, :id =>name}})
+   vids= stream[:w][0,2]
+   if stream[:w].length>2
+      render :json => {:vids => vids, :rec => false}
+   else
+      render :json => {:vids => vids, :rec => true}
+
+   end
+end
+helper_method :get_vids
 def get_user_id
    print "hello\n"
    result=User.where(email: current_user.email).only(:_id)
    render :json => result[0]
 end
 helper_method :get_user_id
+
+def get_streams
+   user= current_user.email
+   streams=Stream.where({'_id.u'=> user}).limit(4)
+   render :json => {:streams =>streams}
+end
+helper_method :get_streams
 
 def create_stream
    user= current_user.email
@@ -21,13 +41,14 @@ def create_stream
    stream=( {:_id=> {:u =>user, :id =>name},
      :bw =>{}, :du => {:ps => 0, :sx => 0, :sx2 => 0,
      :m => 0, :sd => 0}, :mw =>{}, :cs => {}, :v => [], 
-     :l => {},:d => {} })
+     :l => {},:d => {}, :w =>[] })
 
    for id in videos
       add_video(id, stream)
    end
    Stream.create!(stream)
    render :json => {:success => true}
+   rec_vids(name)
 end
 
 def add_video (id, stream)
@@ -99,4 +120,13 @@ def get_video (id)
       }
       return video
 end
+
+def rec_vids (name)
+   if !name
+      name=params[:name]
+   end
+   user=current_user.email
+   Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, ["lJu2G1dvTIU","aegRMcI-jnM"])
+end
+
 end
