@@ -5,24 +5,30 @@ class VidController
   vidList=[]
   previous=null
    
-  @getSuccess =(data) ->
+  getSuccess: (data) ->
     vidList=vidList.concat(data['vids'])
     if !data['rec']
        $.ajax
-         url: "/streams/rec_vids"
+         url: "/streams/a_rec_vids"
          data: {'name': @name}
 
   constructor: (@VidPlayer, @name) ->
     $.ajax
       url: "/streams/get_vids"
-      success: (data) => @getSuccess(data, @name)
+      data: {'name': @name}
+      success: (data) => @getSuccess(data)
       dataType:"json"
   
   nextVideo: ()->
-    #previous=vidList.shift()
+    if !previous
+      $.ajax
+         url: "/streams/watched"
+         data: {'name': @name}
+    previous=vidList.shift()
     $.ajax
       url: "/streams/get_vids"
-      success: (data) => @getSuccess(data, @name)
+      data: {'name': @name}
+      success: (data) => @getSuccess(data)
       dataType:"json"
     return previous
 

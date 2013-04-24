@@ -3,10 +3,10 @@ ActionController::Base.logger = Logger.new(STDOUT)
 require 'open-uri'
 before_filter :require_login
 
-def get_vids (name)
+def get_vids
    user= current_user.email
    name= params[:name]
-   stream=Stream.where({:_id =>{:u =>user, :id =>name}})
+   stream=Stream.where({:_id =>{:u =>user, :id =>name}}).first
    vids= stream[:w][0,2]
    if stream[:w].length>2
       render :json => {:vids => vids, :rec => false}
@@ -121,12 +121,28 @@ def get_video (id)
       return video
 end
 
+def a_rec_vids
+   name=params[:name]
+   rec_vids(name)
+end
+
 def rec_vids (name)
-   if !name
-      name=params[:name]
-   end
+   name=params[:name]
    user=current_user.email
    Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, ["lJu2G1dvTIU","aegRMcI-jnM"])
+end
+
+def watched 
+   user=current_user.email
+   name=params[:name]
+   stream= Stream.where({:_id =>{:u => user, :id => name}}).first
+   vid=stream[:w].shift
+   stream[:v].push(vid)
+   while stream[:v].length >30
+      stream[:v].shift
+   end
+   stream.save
+   render :nothing => true
 end
 
 end
