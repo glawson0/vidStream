@@ -7,7 +7,7 @@ class VidController
    
   getSuccess: (data) ->
     vidList=vidList.concat(data['vids'])
-    if !data['rec']
+    if data['rec']
        $.ajax
          url: "/streams/a_rec_vids"
          data: {'name': @name}
@@ -20,20 +20,36 @@ class VidController
       dataType:"json"
   
   nextVideo: ()->
-    if !previous
+    if !!previous
       $.ajax
          url: "/streams/watched"
          data: {'name': @name}
+         dataType:"json"
     previous=vidList.shift()
-    $.ajax
-      url: "/streams/get_vids"
-      data: {'name': @name}
-      success: (data) => @getSuccess(data)
-      dataType:"json"
+    if vidList.length ==0
+      $.ajax
+         url: "/streams/get_vids"
+         data: {'name': @name}
+         success: (data) => @getSuccess(data)
+         dataType:"json"
     return previous
 
   queueVideo: (tag)->
     vidList.push(tag)
+  
+  like: () ->
+    $.ajax 
+      url: "/streams/like"
+      data: {'name': @name, 'id': previous}
+      dataType: "json"
+    false
+   
+  dislike: () ->
+    $.ajax 
+      url: "/streams/dislike"
+      data: {'name': @name, 'id': previous}
+      dataType: "json"
+    false
 
   getList: ()->
     return vidList

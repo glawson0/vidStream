@@ -7,8 +7,8 @@ def get_vids
    user= current_user.email
    name= params[:name]
    stream=Stream.where({:_id =>{:u =>user, :id =>name}}).first
-   vids= stream[:w][0,2]
-   if stream[:w].length>2
+   vids= stream[:w][0,4]
+   if stream[:w].length>4
       render :json => {:vids => vids, :rec => false}
    else
       render :json => {:vids => vids, :rec => true}
@@ -38,9 +38,9 @@ def create_stream
      render :json => {:success => false}
      return
    end
-   stream=( {:_id=> {:u =>user, :id =>name},
-     :bw =>{}, :du => {:ps => 0, :sx => 0, :sx2 => 0,
-     :m => 0, :sd => 0}, :mw =>{}, :cs => {}, :v => [], 
+   stream=( {:_id=> {'u' =>user, 'id' =>name},
+     :bw =>{}, :du => {'ps' => 0, 'sx' => 0, 'sx2' => 0,
+     'm' => 0, 'sd' => 0}, :mw =>{}, :cs => {}, :v => [], 
      :l => {},:d => {}, :w =>[] })
 
    for id in videos
@@ -51,8 +51,50 @@ def create_stream
    rec_vids(name)
 end
 
+def like 
+   name=params[:name]
+   user= current_user.email
+   id=params[:id]
+   stream=Stream.where({'_id' =>{'u' =>user, 'id' =>name}}).first
+   updated=add_video(id,stream)
+   stream2=Stream.where({'_id' =>{'u' =>user, 'id' =>name}}).first
+   val=stream2.update_attributes(cs: updated[:cs],du: updated[:du],bw: updated[:bw], mw: updated[:mw],l: updated[:l])
+   render :json => {:success =>val}
+end
+   
+def dislike
+   name=params[:name]
+   user= current_user.email
+   id=params[:id]
+   stream=Stream.where({'_id' =>{'u' =>user, 'id' =>name}}).first
+   if(stream[:l].has_key?(id) or stream[:d].has_key?(id))
+      logger.info "skipped"
+      render :json => {:success =>true}
+      return
+   end
+   video=Video.where({:_id => id}).first
+   for word in video[:k]
+      if stream[:bw].has_key?(word)
+         stream["bw"][word]-=1
+         if stream[:bw][word]==0
+            stream["bw"].delete(word)
+         end
+      elsif stream[:mw].has_key?(word)
+         stream["mw"][word]+=1
+      else
+         stream["mw"][word]=1
+      end
+   end
+   stream["d"][video["_id"]]=1
+   stream2 = Stream.where({'_id' =>{'u' =>user, 'id' =>name}}).first
+   val = stream2.update_attributes(bw: stream[:bw], mw: stream[:mw], d: stream[:d])
+
+   render :json => {:success =>val}
+end
+
 def add_video (id, stream)
    if(stream[:l].has_key?(id) or stream[:d].has_key?(id))
+      logger.info "skipped"
       return stream
    end
 
@@ -71,7 +113,12 @@ def add_video (id, stream)
    end
    #keyword stuff
    for word in video[:k]
-      if stream[:bw].has_key?(word)
+      if stream[:mw].has_key?(word)
+         stream["mw"]["word"]-=1
+         if stream[:mw][word]==0
+            stream["mw"].delete(word)
+         end
+      elsif stream[:bw].has_key?(word)
          stream[:bw][word]+=1
       else
          stream[:bw][word]=1
@@ -79,18 +126,13 @@ def add_video (id, stream)
    end
    time= video[:du]
 
-   logger.info time
-   stream[:du][:ps] += 1
-   stream[:du][:sx] += time
-   stream[:du][:m]=stream[:du][:sx]/Float(stream[:du][:ps])
-   stream[:du][:sx2] += (time*time)
-   stream[:du][:sd]=Math.sqrt(((stream[:du][:ps]*stream[:du][:sx2])-(stream[:du][:sx]*stream[:du][:sx]))/
-                              (stream[:du][:ps]*stream[:du][:ps]))
-   stream[:v].unshift(video[:_id])
-   if stream[:v].length>20
-      stream[:v].pop
-   end
-   
+   #logger.info stream 
+   stream[:du]['ps'] += 1
+   stream[:du]['sx'] += time
+   stream[:du]['m']=stream[:du]['sx']/Float(stream[:du]['ps'])
+   stream[:du]['sx2'] += (time*time)
+   stream[:du]['sd']=Math.sqrt(((stream[:du]['ps']*stream[:du]['sx2'])-(stream[:du]['sx']*stream[:du]['sx']))/
+                              (stream[:du]['ps']*stream[:du]['ps']))
    return stream
 end
 
@@ -123,26 +165,62 @@ end
 
 def a_rec_vids
    name=params[:name]
-   rec_vids(name)
+   ret=rec_vids(name)
+   render :json => {:success => ret}
 end
 
 def rec_vids (name)
-   name=params[:name]
    user=current_user.email
-   Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, ["lJu2G1dvTIU","aegRMcI-jnM"])
+   strm= Stream.where({:_id=> {:u =>user, :id =>name}}).first
+   videos=Video.any_in({:k => strm[:bw].keys}).not_in({:_id =>strm[:d].keys})
+   sd= strm[:du]["sd"]
+   if sd<3
+      nsd= strm[:du]["m"]*0.1
+      if nsd>sd
+         sd=nsd
+      end
+   end
+   maxt=strm[:du]["m"]+sd
+   mint=strm[:du]["m"]-sd
+   scores=[]
+   for video in videos
+      if strm[:v].include?(video[:_id]) or strm[:w].include?(video[:_id])
+         next   
+      end
+      if(video[:du]<maxt and video[:du]>mint)
+         next
+      end
+      count =0
+
+      for word in video[:k]
+         if strm[:bw].member?word
+            count+=1
+         elsif strm[:mw].member?word
+            count -=1
+         end
+      end
+
+      if strm[:cs].keys.include?(video[:c])
+         count+=5
+      end
+      scores.push({:count => count,:video => video})
+   end
+   scores=scores.sort{|a,b| b[:count] <=> a[:count] }
+   Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, scores[0,5].map{|a| a[:video]["_id"]})
+   return scores[0,5]
 end
 
 def watched 
    user=current_user.email
    name=params[:name]
    stream= Stream.where({:_id =>{:u => user, :id => name}}).first
-   vid=stream[:w].shift
-   stream[:v].push(vid)
-   while stream[:v].length >30
-      stream[:v].shift
+   vid=stream.w.shift
+   stream.v.push(vid)
+   while stream.v.length >30
+      stream.v.shift
    end
-   stream.save
-   render :nothing => true
+   val=stream.save!
+   render :json => {"return" => val}
 end
 
 end

@@ -77,13 +77,18 @@
       html = '';
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      html+=('<h1> '+stream['_id']['id'] +' <h1 />');
+      html+=('<h1>'+stream['_id']['id']+'</h1>');
       }
       html += '<div id="player" />';
+      html += '<input type="button" id=liker value="Like"/>';
+      html += '<input type="button" id=disliker value="Dislike"/>';
       $('#'+event.target.id).html(html);
       var params = {allowScriptAccess: "always" };
       var atts = {id : "player", };
-      swfobject.embedSWF("http://www.youtube.com/v/V6V9gpXZgvo&enablejsapi=1&playerapiid=ytplayer", "player", "425    ", "365", "8", null, null, params, atts);
+      var vid= "http://www.youtube.com/v/"+elems[$(".bigbox").attr('id')].nextVideo()+"&enablejsapi=1&playerapiid=ytplayer";
+      swfobject.embedSWF(vid, "player", "425", "365", "8", null, null, params, atts);
+      $('#liker').click(function() {elems[$(".bigbox").attr('id')].like();return false;});
+      $('#disliker').click(function() {elems[$(".bigbox").attr('id')].dislike();loadNewVideo();return false;});
       }
       function unloadContent(id,target){
       if (id==target){
@@ -91,10 +96,10 @@
       }
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      $('#'+id).html('<h1> '+stream['_id']['id'] +' <h1 />');
+      $('#'+id).html('<h1>'+stream['_id']['id']+'</h1>');
       return
       }
-      $('#'+id).html('<h1> default <h1 />');
+      $('#'+id).html('default');
       }
       function loadNewVideo() {
       document.getElementById("player").loadVideoById(elems[$(".bigbox").attr('id')].nextVideo(), 0);
