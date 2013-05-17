@@ -1,7 +1,9 @@
 @getTag= (url)->
-  list=url.match(/youtube\.com\/watch\?v=(\w+)/)
-  if list
-    return list[1]
-  else
-    return null
+   regExp =/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+   match = url.match(regExp);
+   if (match&&match[2].length==11)
+       return match[2];
+   else
+       return null
+   
 

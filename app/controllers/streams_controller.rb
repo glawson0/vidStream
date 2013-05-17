@@ -25,7 +25,7 @@ helper_method :get_user_id
 
 def get_streams
    user= current_user.email
-   streams=Stream.where({'_id.u'=> user}).limit(4)
+   streams=Stream.where({'_id.u'=> user}).sort({'_id.id'=> 1})
    render :json => {:streams =>streams}
 end
 helper_method :get_streams
@@ -76,7 +76,7 @@ def dislike
    for word in video[:k]
       if stream[:bw].has_key?(word)
          stream["bw"][word]-=1
-         if stream[:bw][word]==0
+         if stream[:bw][word]<=0
             stream["bw"].delete(word)
          end
       elsif stream[:mw].has_key?(word)
@@ -114,8 +114,8 @@ def add_video (id, stream)
    #keyword stuff
    for word in video[:k]
       if stream[:mw].has_key?(word)
-         stream["mw"]["word"]-=1
-         if stream[:mw][word]==0
+         stream[:mw][word]-=1
+         if stream[:mw][word]<=0
             stream["mw"].delete(word)
          end
       elsif stream[:bw].has_key?(word)
@@ -140,7 +140,7 @@ def get_video (id)
    contents = URI.parse(
          'https://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=json'%id).read
       vidData=JSON.parse(contents)
-      logger.info vidData["entry"]["media$group"].keys
+      logger.info vidData["entry"].keys
       text=vidData["entry"]["media$group"]["media$description"]["$t"].split
       text= text.concat(vidData["entry"]["title"]["$t"].split)
       text= text.map{ |x| x.downcase.gsub(/[^a-z'\s]/, '')}
@@ -160,6 +160,7 @@ def get_video (id)
          :du => Integer(vidData["entry"]["media$group"]["yt$duration"]["seconds"]),
          :c => vidData["entry"]["media$group"]["media$category"][0]["$t"]
       }
+      Channel.create({:_id=> video[:ch]})
       return video
 end
 

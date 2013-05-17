@@ -14,26 +14,12 @@
    %h1#message{:color => 'red'}
    #test
    #streams
-      #s1.baxes
-      #s2.baxes
-      #s3.baxes
-      #s4.baxes
 
 
    %script{:type => 'text/javascript'}
       var streams=[];
       var elems= {};
-      $.ajax({url: "/streams/get_streams",
-      data: {},
-      success: Success,
-      dataType: "json"})
-      function Success (data){
-      streams=streams.concat(data['streams']);
-      for (var i=1; i<=streams.length; i++){
-      elems[('s'+i)]=new getVidController("player",streams[i-1]['_id']['id'])
-      unloadContent('s'+i,"");
-      }
-      };
+      var loaded= false;
       $('#addDeets').hide();
       $('#makenew').click(function (){
       $('#makenew').hide();
@@ -51,6 +37,19 @@
       return false;
       });
       $(document).ready(function() {
+      $.ajax({url: "/streams/get_streams",
+      data: {},
+      success: Success,
+      dataType: "json"})
+      function Success (data){
+      var html;
+      streams=streams.concat(data['streams']);
+      for (var i=1; i<=streams.length; i++){
+      elems[('s'+i)]=new getVidController("player",streams[i-1]['_id']['id'])
+      html = '<div class= "baxes" id= "s'+i+'"/>';
+      $("#streams").append(html);
+      unloadContent('s'+i,"");
+      }
       $('.baxes').click(function(event){
       if($("#"+event.target.id).attr('class')!='bigbox'){
       unloadContent($('.bigbox').attr('id'),event.target.id);
@@ -62,10 +61,13 @@
       $(event.target).toggleClass('baxes').promise()
       }
       });
+      };
       });
       function onYouTubePlayerReady(playerId) {
       ytplayer = document.getElementById("player");
       ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
+      console.log("asd")
+      loadCurVideo();
       }
       function onytplayerStateChange(newState) {
       if (newState==0){
@@ -77,17 +79,19 @@
       html = '';
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      html+=('<h1>'+stream['_id']['id']+'</h1>');
+      html+=(''+stream['_id']['id']+'');
       }
       html += '<div id="player" />';
       html += '<input type="button" id=liker value="Like"/>';
+      html += '<input type="button" id=nexter value="Next"/>';
       html += '<input type="button" id=disliker value="Dislike"/>';
       $('#'+event.target.id).html(html);
       var params = {allowScriptAccess: "always" };
       var atts = {id : "player", };
-      var vid= "http://www.youtube.com/v/"+elems[$(".bigbox").attr('id')].nextVideo()+"&enablejsapi=1&playerapiid=ytplayer";
+      var vid= "http://www.youtube.com/v/"+elems[$(".bigbox").attr('id')].getVideo()+"&enablejsapi=1&playerapiid=ytplayer";
       swfobject.embedSWF(vid, "player", "425", "365", "8", null, null, params, atts);
       $('#liker').click(function() {elems[$(".bigbox").attr('id')].like();return false;});
+      $('#nexter').click(function() {loadNewVideo();return false;});
       $('#disliker').click(function() {elems[$(".bigbox").attr('id')].dislike();loadNewVideo();return false;});
       }
       function unloadContent(id,target){
@@ -96,7 +100,7 @@
       }
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      $('#'+id).html('<h1>'+stream['_id']['id']+'</h1>');
+      $('#'+id).html(''+stream['_id']['id']+'');
       return
       }
       $('#'+id).html('default');
@@ -104,4 +108,8 @@
       function loadNewVideo() {
       document.getElementById("player").loadVideoById(elems[$(".bigbox").attr('id')].nextVideo(), 0);
       };
+      function loadCurVideo(){
+      document.getElementById("player").loadVideoById(elems[$(".bigbox").attr('id')].getVideo(), 0);
+
+      }
 
