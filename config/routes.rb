@@ -23,6 +23,8 @@ Website::Application.routes.draw do
   match ':controller/watched'
   match ':controller/like'
   match ':controller/dislike'
+  match ':controller/del_stream'
+  match ':controller/a_add_video'
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

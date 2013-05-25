@@ -34,6 +34,7 @@
       });
       $('#create').click(function(){
       createStream();
+      reloadStreams();
       return false;
       });
       $(document).ready(function() {
@@ -42,7 +43,7 @@
       success: Success,
       dataType: "json"})
       function Success (data){
-      var html;
+      var html="";
       streams=streams.concat(data['streams']);
       for (var i=1; i<=streams.length; i++){
       elems[('s'+i)]=new getVidController("player",streams[i-1]['_id']['id'])
@@ -66,8 +67,42 @@
       function onYouTubePlayerReady(playerId) {
       ytplayer = document.getElementById("player");
       ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
-      console.log("asd")
       loadCurVideo();
+      }
+      function reloadStreams(){
+      $.ajax({url: "/streams/get_streams",
+      data: {},
+      success: Success,
+      dataType: "json"})
+      function Success (data){
+      var html;
+      elems={};
+      $("#streams").html("");
+      streams=data['streams'];
+      for (var i=1; i<=streams.length; i++){
+      elems[('s'+i)]=new getVidController("player",streams[i-1]['_id']['id'])
+      html = '<div class= "baxes" id= "s'+i+'"/>';
+      $("#streams").append(html);
+      unloadContent('s'+i,"");
+      }
+      $('.baxes').click(function(event){
+      if($("#"+event.target.id).attr('class')!='bigbox'){
+      unloadContent($('.bigbox').attr('id'),event.target.id);
+      $('.bigbox').toggleClass('baxes').promise();
+      $('.bigbox').toggleClass('bigbox').promise();
+      $(event.target).toggleClass('bigbox').promise().done(function(){
+      loadContent(event.target.id,event);
+      });
+      $(event.target).toggleClass('baxes').promise()
+      }
+      });
+      };
+      }
+      function deleteStream(){
+      $.ajax({url: "/streams/del_stream",
+      data:{"name":elems[$('.bigbox').attr('id')].name},
+      success: reloadStreams,
+      dataType: "json"})
       }
       function onytplayerStateChange(newState) {
       if (newState==0){
@@ -79,12 +114,15 @@
       html = '';
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      html+=(''+stream['_id']['id']+'');
+      html+=(''+stream['_id']['id']+'\n');
       }
       html += '<div id="player" />';
       html += '<input type="button" id=liker value="Like"/>';
       html += '<input type="button" id=nexter value="Next"/>';
       html += '<input type="button" id=disliker value="Dislike"/>';
+      html += '<input type="button" id=deleter value="Delete"/>';
+      html += '<input type="textfield" id=vurl />';
+      html += '<input type="button" id=adder value="Add Video"/>';
       $('#'+event.target.id).html(html);
       var params = {allowScriptAccess: "always" };
       var atts = {id : "player", };
@@ -92,7 +130,9 @@
       swfobject.embedSWF(vid, "player", "425", "365", "8", null, null, params, atts);
       $('#liker').click(function() {elems[$(".bigbox").attr('id')].like();return false;});
       $('#nexter').click(function() {loadNewVideo();return false;});
+      $('#deleter').click(function() {deleteStream(); return false;});
       $('#disliker').click(function() {elems[$(".bigbox").attr('id')].dislike();loadNewVideo();return false;});
+      $('#adder').click(function() {elems[$(".bigbox").attr('id')].add(getTag($('#vurl').val())); return false;});
       }
       function unloadContent(id,target){
       if (id==target){

@@ -44,7 +44,12 @@ class VidController
 
   queueVideo: (tag)->
     @vidList.push(tag)
-  
+ 
+  add:(id) ->
+   $.ajax
+     url: "/streams/a_add_video"
+     data: {'name':@name, id}
+
   like: () ->
     $.ajax 
       url: "/streams/like"

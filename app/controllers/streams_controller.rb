@@ -29,6 +29,12 @@ def get_streams
    render :json => {:streams =>streams}
 end
 helper_method :get_streams
+def del_stream
+   user= current_user.email
+   name= params[:name]
+   val=Stream.where({:_id =>{:u =>user, :id =>name}}).delete_all
+   render :json => {:status => val}
+end
 
 def create_stream
    user= current_user.email
@@ -92,6 +98,7 @@ def dislike
    render :json => {:success =>val}
 end
 
+
 def add_video (id, stream)
    if(stream[:l].has_key?(id) or stream[:d].has_key?(id))
       logger.info "skipped"
@@ -135,6 +142,14 @@ def add_video (id, stream)
                               (stream[:du]['ps']*stream[:du]['ps']))
    return stream
 end
+def a_add_video
+   name=params[:name]
+   id= params[:id]
+   user= current_user.email
+   stream=Stream.where({'_id' =>{'u' =>user, 'id' =>name}}).first
+   add_video(id, stream)
+   render :json => {:success => true}
+end
 
 def get_video (id)
    contents = URI.parse(
@@ -173,7 +188,7 @@ end
 def rec_vids (name)
    user=current_user.email
    strm= Stream.where({:_id=> {:u =>user, :id =>name}}).first
-   videos=Video.any_in({:k => strm[:bw].keys}).not_in({:_id =>strm[:d].keys})
+   videos=Video.any_in({:k => strm[:bw].keys}).not_in({:_id =>strm[:d].keys}).not_in({:_id =>strm[:w]}).not_in({:_id =>strm[:v]})
    sd= strm[:du]["sd"]
    if sd<3
       nsd= strm[:du]["m"]*0.1
@@ -185,9 +200,6 @@ def rec_vids (name)
    mint=strm[:du]["m"]-sd
    scores=[]
    for video in videos
-      if strm[:v].include?(video[:_id]) or strm[:w].include?(video[:_id])
-         next   
-      end
       if(video[:du]<maxt and video[:du]>mint)
          next
       end
@@ -195,7 +207,7 @@ def rec_vids (name)
 
       for word in video[:k]
          if strm[:bw].member?word
-            count+=1
+            count+=strm[:bw][word]
          elsif strm[:mw].member?word
             count -=1
          end
@@ -208,7 +220,7 @@ def rec_vids (name)
    end
    scores=scores.sort{|a,b| b[:count] <=> a[:count] }
    Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, scores[0,5].map{|a| a[:video]["_id"]})
-   return scores[0,5]
+   return scores[0,6]
 end
 
 def watched 
