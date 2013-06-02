@@ -48,6 +48,7 @@ h1#title{
   background:url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/liked.png) no-repeat center;
   top:-25px;
   left:-40px;
+  text-align:center;
 }
 #liked p{
   font-size:16px;
@@ -134,7 +135,6 @@ h1#title{
   width:100px;
   height:50px; 
   background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/next.png);
-  color:black;
   font-size:12px;
   text-align:left;
   cursor:pointer;
@@ -147,5 +147,5 @@ h1#title{
   margin: 15px auto auto 10px;
   font-size:12px;
   font-weight:bold;
-  color:#BBB;
+  color:black;
 }
