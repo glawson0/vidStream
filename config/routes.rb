@@ -1,5 +1,7 @@
 Website::Application.routes.draw do
  
+  resources :abouts
+
   devise_for :users 
   get "home/index"
 
@@ -13,6 +15,7 @@ Website::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
+  match 'about' => 'abouts#index'
   match 'streams' => 'streams#index'
 
   match ':controller/get_user_id' 
