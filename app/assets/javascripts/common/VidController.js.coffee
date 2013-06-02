@@ -4,10 +4,14 @@
 class VidController
   @vidList
   @previous
+  @liked=false
    
   getSuccess: (data) ->
-    @vidList=@vidList.concat(data['vids'])
-    if data['rec']
+    if data['vids'][0]['v']==@previous
+      @nextVideo()
+    else    
+     @vidList=@vidList.concat(data['vids'])
+     if data['rec']
        $.ajax
          url: "/streams/a_rec_vids"
          data: {'name': @name}
@@ -33,7 +37,11 @@ class VidController
          url: "/streams/watched"
          data: {'name': @name}
          dataType:"json"
-    @previous=@vidList.shift()
+    newvid=@vidList.shift()
+    while (newvid['v']==@previous)
+      newvid=@vidList.shift()
+    @previous=newvid['v']
+    @liked=newvid['l']
     if @vidList.length ==0
       $.ajax
          url: "/streams/get_vids"
@@ -61,6 +69,7 @@ class VidController
       url: "/streams/like"
       data: {'name': @name, 'id': @previous}
       dataType: "json"
+    @liked=true
     false
    
   dislike: () ->

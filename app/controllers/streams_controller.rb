@@ -10,12 +10,11 @@ def get_vids
    vids= stream[:w]
 
    if vids.length == 0
-      render :json => {:vids => (stream[:l].keys.shuffle)[0, (stream[:l].length>3? 3: stream[:l].length)], :rec => true}
+      render :json => {:vids => [{:v =>(stream[:l].keys.shuffle)[0], :l=>true}] , :rec => true}
    elsif vids.length <6
-      render :json => {:vids => vids[0,(vids.length<3? vids.length-1: 3)], :rec => true}
+      render :json => {:vids => (vids[0,(vids.length<3? vids.length-1: 3)]).map{|x| {:v=>x,:l =>stream[:l].has_key?(x)} }, :rec => true}
    else
-      render :json => {:vids => vids[0,3], :rec => false}
-
+      render :json => {:vids => (vids[0,3]).map{|x| {:v=> x,:l=> stream[:l].has_key?(x)} }, :rec => false}
    end
 end
 helper_method :get_vids
