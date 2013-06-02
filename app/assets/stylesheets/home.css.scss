@@ -4,7 +4,7 @@
 
 .button_to input{
   width:275px;
-  margin:40px auto 30px auto;
+  margin:20px auto 30px auto;
   height:100px;
   background:#87AFC9;
   font-size:40px;
@@ -14,6 +14,7 @@
 .button_to input:hover{
   background:#DC8B55;
 }
+
 h1.title{
 text-align:center;
 }
@@ -50,7 +51,7 @@ margin-right:auto;
   margin: 0 0 0 -360px;
   width:720px;
   background-color:#3d4573;
-  height:375px
+  height:475px
 }
 .logo{
   margin:5px auto;
@@ -60,7 +61,7 @@ margin-right:auto;
   float:left;
   width:320px; /* 360 - padding*2 */
   padding:20px;
-  height:425px;
+  height:475px;
   background-color:#DC8B55;
   
 }
@@ -84,8 +85,7 @@ margin-right:auto;
   display:block;
   float:right;
   width:320px; /* 360 - padding*2 */
-  padding:20px;
-  height:425px;
+  padding:20px;  height:475px;
   color:black;
   text-align:center;
 }

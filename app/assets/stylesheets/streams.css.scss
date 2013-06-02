@@ -9,6 +9,18 @@
   position:relative;
 }
 
+h1{
+  color:white;
+}
+
+.expand{
+  font-style:italic;
+  color:#BBB;
+  position:absolute;
+  right:20px;
+  top: 15px;
+}
+
 .baxes {
   width: 100%;
   min-height: 50px;
@@ -26,6 +38,7 @@ h1#title{
   display:inline;
   float:left;
   margin-left:35px;
+  color:black;
 }
 
 #liked{
