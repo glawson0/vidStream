@@ -1,6 +1,7 @@
 // Place all the styles related to the streams controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
 #streams {
   width: 840px;
   margin: 0 auto;
@@ -56,13 +57,18 @@ margin:25px 25px 0 0 ;
 
 #deleter{
   position:absolute;
-  right:25px;
+  right:80px;
   bottom: 25px;
   width:50px;
-  height:40px; 
-  background-color:red;
-  color:white;
-  font-size:10px;
+  height:50px; 
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/web/delete.png);
+  color:black;
+  font-size:12px;
+  text-align:center;
+}
+
+#deleter p{
+  margin-left:55px; 
 }
 
 #liker{
@@ -71,9 +77,9 @@ margin:25px 25px 0 0 ;
   top: 100px;
   width:100px;
   height:100px; 
-  background-color:green;
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/web/like.png);
   color:white;
-  font-size:18px;
+  font-size:10px;
 }
 
 #disliker{
@@ -82,9 +88,9 @@ margin:25px 25px 0 0 ;
   bottom: 50px;
   width:100px;
   height:100px; 
-  background-color:red;
-  color:white;
-  font-size:18px;
+  color:black;
+  font-size:10px;
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/web/dislike.png);
 }
 
 #nexter{
@@ -93,7 +99,8 @@ margin:25px 25px 0 0 ;
   top: 50%;
   width:100px;
   height:50px; 
-  background-color:gray;
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/web/next.png);
   color:black;
-  font-size:18px;
+  font-size:12px;
+  text-align:left;
 }
