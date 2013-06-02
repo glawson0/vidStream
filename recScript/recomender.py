@@ -42,4 +42,3 @@ for stream in streams:
    db.streams.update({'_id': news['_id']},{'$pushAll': {'w': [ x[1]['_id'] for x in  (scores[0:6])] }})
    db.streams.update({'_id': news['_id']},{'$set':{"rec":False, "cur":False}})
 
-   
