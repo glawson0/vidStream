@@ -2,15 +2,15 @@
   .feature
     .hleft
       %img.logo(src="assets/logo_rough.png")
-      %ol
-        %li Choose a video %br you like
-        %li Get more videos %br you'll love
-        %li ????
-        %li Procrastinate!
+      .list
+        %p 1. Choose a video <br /> you like
+        %p 2. Get more videos <br /> you'll love
+        %p 3. ????
+        %p 4. Procrastinate!
     .hright
       %h1 Start Watching
-      %button#sup Sign Up
-      %button#log Log In
+      = button_to "Sign Up", '/users/sign_up', :method => :get, :id => 'signup'
+      = button_to "Log In", '/users/sign_in', :method => :get, :id => 'login'
   %p
   %p
   %p

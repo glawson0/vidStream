@@ -114,16 +114,16 @@
       html = '';
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      html+=(''+stream['_id']['id']+'\n');
+      html+=('<h1 id="title">'+stream['_id']['id']+'</h1>\n');
       }
-      html += '<div id="player" />';
+      html += '<div id="addvideo"> <input type="textfield" id="vurl" class=not /> ';
+      html += '<input type="button" id=adder value="Add Video"/></div><div id="clear" />';
       html += '<div id= "liked"> Liked! </div>';
+      html += '<div id="player" />';
       html += '<input type="button" id=liker value="Like"/>';
       html += '<input type="button" id=nexter value="Next"/>';
       html += '<input type="button" id=disliker value="Dislike"/>';
-      html += '<input type="button" id=deleter value="Delete"/>';
-      html += '<div> <input type="textfield" id="vurl" class=not /> </div>';
-      html += '<input type="button" id=adder value="Add Video"/>';
+      html += '<div id="deleter">Delete Stream</div>';
       $('#'+event.target.id).html(html);
       var params = {allowScriptAccess: "always" };
       var atts = {id : "player", };

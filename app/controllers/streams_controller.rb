@@ -194,6 +194,9 @@ def rec_vids (name)
       strm.set(:rec, true)
       strm.save
    end
+   if fork.nil?
+      exec("~glawson/vidStream/recScript/recomender.py")
+   end
    return true
 =begin
    if (strm[:w].length >6)
