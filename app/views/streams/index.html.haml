@@ -117,6 +117,7 @@
       html+=(''+stream['_id']['id']+'\n');
       }
       html += '<div id="player" />';
+      html += '<div id= "liked"> Liked! </div>';
       html += '<input type="button" id=liker value="Like"/>';
       html += '<input type="button" id=nexter value="Next"/>';
       html += '<input type="button" id=disliker value="Dislike"/>';
@@ -128,7 +129,8 @@
       var atts = {id : "player", };
       var vid= "http://www.youtube.com/v/"+elems[$(".bigbox").attr('id')].getVideo()+"&enablejsapi=1&playerapiid=ytplayer";
       swfobject.embedSWF(vid, "player", "425", "365", "8", null, null, params, atts);
-      $('#liker').click(function() {elems[$(".bigbox").attr('id')].like();return false;});
+      determineLiked();
+      $('#liker').click(function() {elems[$(".bigbox").attr('id')].like();determineLiked();return false;});
       $('#nexter').click(function() {loadNewVideo();return false;});
       $('#deleter').click(function() {deleteStream(); return false;});
       $('#disliker').click(function() {elems[$(".bigbox").attr('id')].dislike();loadNewVideo();return false;});
@@ -146,8 +148,16 @@
       }
       $('#'+id).html('default');
       }
+      function determineLiked(){
+      if (elems[$(".bigbox").attr('id')].getLiked()){
+      $('#liked').show()
+      }else{
+      $('#liked').hide()
+      }
+      };
       function loadNewVideo() {
       document.getElementById("player").loadVideoById(elems[$(".bigbox").attr('id')].nextVideo(), 0);
+      determineLiked();
       };
       function loadCurVideo(){
       document.getElementById("player").loadVideoById(elems[$(".bigbox").attr('id')].getVideo(), 0);

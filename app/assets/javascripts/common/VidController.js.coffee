@@ -30,7 +30,8 @@ class VidController
        @nextVideo()
     else
        @previous
-  
+  getLiked: () ->
+   @liked
   nextVideo: ()->
     if !!@previous
       $.ajax
@@ -38,10 +39,11 @@ class VidController
          data: {'name': @name}
          dataType:"json"
     newvid=@vidList.shift()
-    while (newvid['v']==@previous)
-      newvid=@vidList.shift()
-    @previous=newvid['v']
-    @liked=newvid['l']
+    if (!!newvid)
+      while (newvid['v']==@previous)
+         newvid=@vidList.shift()
+      @previous=newvid['v']
+      @liked=newvid['l']
     if @vidList.length ==0
       $.ajax
          url: "/streams/get_vids"
