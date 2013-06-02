@@ -37,7 +37,7 @@ margin-right:auto;
   margin: -225px 0 0 -360px;
   width:720px;
   background-color:#3d4573;
-  height:350px;
+  height:375px
 }
 .logo{
   margin:5px auto;
@@ -47,7 +47,7 @@ margin-right:auto;
   float:left;
   width:320px; /* 360 - padding*2 */
   padding:20px;
-  height:350px;
+  height:375px
   background-color:#DC8B55;
   
 }
@@ -62,7 +62,8 @@ margin-right:auto;
   font-weight:bold;
   color:white;
   text-align:center;
-  font-size:20px;
+  font-size:25px;
+  margin-top:-20px;
 }
 .hright{
   background-color:#416C85;
@@ -70,7 +71,13 @@ margin-right:auto;
   float:right;
   width:320px; /* 360 - padding*2 */
   padding:20px;
-  height:350px;
+  height:375px
   color:black;
   text-align:center;
+}
+.testimony{
+  color:white;
+  font-weight:bold;
+  margin: 5px auto;
+  text-shadow: 2px 2px 4px #000;
 }
