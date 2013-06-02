@@ -25,7 +25,7 @@
 h1#title{
   display:inline;
   float:left;
-  margin-left:25px;
+  margin-left:35px;
 }
 
 #liked{
@@ -33,14 +33,14 @@ h1#title{
   width:75px;
   height:75px;
   background:url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/liked.png) no-repeat center;
-  top:-50px;
-  left:-50px;
+  top:-25px;
+  left:-40px;
 }
 #liked p{
-  font-size:11px;
-  color:black;
+  font-size:16px;
+  color:#222;
   font-weight:bold;
-  color:black;
+  margin-top:25px;
 }
 
 #clear{clear:both;}
@@ -50,6 +50,7 @@ h1#title{
   float:right; 
   display:inline;
   margin:25px 25px 0 0 ;
+  text-align:right;
 }
 #addvideo input {
   font-size:16px; 
@@ -78,7 +79,7 @@ h1#title{
 }
 
 #deleter:hover{
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/deleter_hover.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/delete_hover.png);
 }
 
 #liker{
@@ -127,7 +128,7 @@ h1#title{
 }
 
 #nexter:hover{
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/nexter_hover.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/next_hover.png);
 }
 #nexter p{
   margin: 15px auto auto 10px;

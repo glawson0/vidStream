@@ -4,13 +4,15 @@
 
 .button_to input{
   width:275px;
-  margin:50px auto 40px auto;
+  margin:40px auto 30px auto;
   height:100px;
-  background:#DC8B55;
-  font-size:40px;
-}
-.button_to input{
   background:#87AFC9;
+  font-size:40px;
+  -webkit-border-radius:20px;
+  -moz-border-radius:20px;
+}
+.button_to input:hover{
+  background:#DC8B55;
 }
 h1.title{
 text-align:center;
@@ -67,6 +69,7 @@ margin-right:auto;
 }
 .hleft .list {
   -webkit-border-radius:10px;
+  -moz-border-radius:10px;
   padding:20px;
   background-color:#87AFC9;
   text-shadow: 1px 1px 3px #000;
