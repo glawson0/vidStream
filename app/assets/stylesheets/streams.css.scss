@@ -9,16 +9,21 @@
   position:relative;
 }
 
-h1{
+h1#main{
   color:white;
+  text-align:center;
+}
+
+h1#streamtitle{
+  display:inline;
+  margin: 2px auto auto 20px;
 }
 
 .expand{
   font-style:italic;
-  color:#BBB;
+  color:#AAA;
   position:absolute;
   right:20px;
-  top: 15px;
 }
 
 .baxes {

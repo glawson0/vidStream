@@ -12,7 +12,7 @@
          %button.done#create Create
    %h1#message{:color => 'red'}
    #test
-   %h1 My Video Streams
+   %h1#main My Video Streams
    #streams
 
 
@@ -143,7 +143,7 @@
       }
       if( id && parseInt(id.substring(1))<= streams.length){
       var stream = streams[parseInt(id.substring(1))-1]
-      $('#'+id).html('<h1 id="title">'+stream['_id']['id']+'</h1><p class="expand">Click to Expand</p>');
+      $('#'+id).html('<h1 id="streamtitle">'+stream['_id']['id']+'</h1><p class="expand">Click to Expand</p>');
       return
       }
       $('#'+id).html('default');
