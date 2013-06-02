@@ -9,11 +9,13 @@
         %p 4. Procrastinate!
     .hright
       %h1 Start Watching
+      .homebutton
+        %p %a(href="/users/sign_up") Sign Up
+      .homebutton
+        %p %a(href="/users/sign_in") Log In
       = button_to "Sign Up", '/users/sign_up', :method => :get, :id => 'signup'
       = button_to "Log In", '/users/sign_in', :method => :get, :id => 'login'
-  %p
-  %p
-  %p
-  %h2.testimony "Who needs work when you have 'MoreLikeThis'!" 
-  %h2.testimony - Miss Cleo 
+  .cleo
+    %h2.testimony "Who needs work when you have 'MoreLikeThis'!" 
+    %h2.testimony - Jake 'Miss Cleo' Tobin
   %script{:type => 'text/javascript'}
