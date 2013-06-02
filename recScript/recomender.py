@@ -8,8 +8,7 @@ db=connection['prod']
 streams=db.streams.find({"rec":True, "cur":False})
 
 for stream in streams:
-   news= db.streams.find_and_modify({"$and" : 
-      [{"_id": stream["_id"]}, {"rec": True, "cur":False}]},
+   news= db.streams.find_and_modify({"_id": stream["_id"],"rec": True, "cur":False},
       {"$set":{"cur":True}})
    if news == None:
       continue
