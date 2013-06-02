@@ -2,13 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.homebutton{
+.button_to input{
   width:275px;
   margin:50px auto 40px auto;
   height:100px;
   background:#DC8B55;
+  font-size:40px;
 }
-
+.button_to input{
+  background:#87AFC9;
+}
 h1.title{
 text-align:center;
 }
