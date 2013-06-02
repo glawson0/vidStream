@@ -3,15 +3,34 @@
     .hleft
       %img.logo(src="assets/logo_rough.png")
       %ol
-        %li Choose a video you like
-        %li Get more videos you'll love
+        %li Choose a video %br you like
+        %li Get more videos %br you'll love
         %li ????
         %li Procrastinate!
     .hright
       %h1.title Sign Up Today
-      %h3 username
-      %h3 password
-      %h3 password
-      %button Signup Today!
-      %p.sub Find videos like your favorites.
+      <h2>Sign up</h2>
+
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+        <%= devise_error_messages! %>
+
+        <div><%= f.label :email %><br />
+        <%= f.email_field :email %></div>
+
+        <div><%= f.label :password %><br />
+        <%= f.password_field :password %></div>
+
+        <div><%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation %></div>
+
+        <div><%= f.submit "Sign up" %></div>
+      <% end %>
+
+      <%= render "links" %>
+  
+  %p
+  %p
+  %p
+  %h2.testimony "Who needs work when you have 'MoreLikeThis'!" 
+  %h2.testimony - Miss Cleo
       
