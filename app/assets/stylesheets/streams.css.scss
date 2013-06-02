@@ -30,13 +30,17 @@ h1#title{
 
 #liked{
   position:absolute;
-  width:50px;
-  height:50px;
-  color:white;
-  background-color:#090;
-  -geoffwebkit-transform:rotate(-20); 
-  top:-25px;
-  left:-25px;
+  width:75px;
+  height:75px;
+  background:url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/liked.png) no-repeat center;
+  top:-50px;
+  left:-50px;
+}
+#liked p{
+  font-size:11px;
+  color:black;
+  font-weight:bold;
+  color:black;
 }
 
 #clear{clear:both;}
@@ -74,7 +78,7 @@ h1#title{
 }
 
 #deleter:hover{
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffgeoffweb/deleter_hover.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/deleter_hover.png);
 }
 
 #liker{
@@ -83,14 +87,14 @@ h1#title{
   top: 100px;
   width:100px;
   height:100px; 
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffgeoffweb/like.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/like.png);
   color:white;
   font-size:10px;
   cursor:pointer;
 }
 
 #liker:hover{
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffgeoffweb/like_hover.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/like_hover.png);
 }
 
 #disliker{
@@ -106,7 +110,7 @@ h1#title{
 }
 
 #disliker:hover{
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffgeoffweb/dislike_hover.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/dislike_hover.png);
 }
 
 #nexter{
@@ -123,7 +127,7 @@ h1#title{
 }
 
 #nexter:hover{
-  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffgeoffweb/nexter_hover.png);
+  background:center no-repeat url(https://dl.dropboxusercontent.com/u/1695584/geoffweb/nexter_hover.png);
 }
 #nexter p{
   margin: 15px auto auto 10px;
