@@ -27,3 +27,25 @@ margin-right:auto;
 .donk{
   margin: 50px auto 50px auto;
 }
+.feature{
+  position:relative;
+  margin:0 auto;
+  width:720px;
+  background-color:#3d4573;
+  height:300px;
+}
+.hleft{
+  display:inline block;
+  width:320px; /* 360 - padding*2 */
+  padding:20px;
+  height:260px;
+}
+.hleft li {
+  font-size:14px;
+}
+.hright{
+  display:inline block;
+  width:320px; /* 360 - padding*2 */
+  padding:20px;
+  height:260px;
+}

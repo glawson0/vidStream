@@ -13,6 +13,7 @@
 */
 body{
 	margin-top:50px;	
+  font-family:'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'DejaVu Sans', Verdana, sans-serif;
 }
 #user_nav p a{
 	color:gray;
