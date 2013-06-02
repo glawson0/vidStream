@@ -1,29 +1,3 @@
-%script
-  $(document).ready(function(){$('button[id="next"]').click(function(){loadNewVideo()})});
 #content
-  %h1.title Welcome to whatever I call this!
-  %p.sub This is my senior project. Yes it's hideous right now, deal with it.
-  .derpy
-    %p derpy derp  
-  .donk
-    #ytplayer
-      %p you will need flash 8 to see this
-    %script#player{:type => "text/javascript"}
-      function onYouTubePlayerReady(playerId) {
-      ytplayer = document.getElementById("myytplayer");
-      ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
-      }
-      function onytplayerStateChange(newState) {
-      if (newState==0){
-      loadNewVideo();
-      }
-      }; 
-      var params = {allowScriptAccess: "always" };
-      var atts = {id : "myytplayer", };
-      swfobject.embedSWF("http://www.youtube.com/v/V6V9gpXZgvo&enablejsapi=1&playerapiid=ytplayer", "ytplayer", "425", "365", "8", null, null, params, atts);
-      var controller = new getVidController(document.getElementById("myytplayer"));
-      function loadNewVideo() {if (ytplayer) {document.getElementById("myytplayer").loadVideoById(controller.nextVideo(), 0);}};
-%button test
-%button{:id => "next"} next
-%input{:id=>"vt", :type=>"text"}
-
+  %h1.title More Like This!
+  %p.sub Find videos like your favorites.

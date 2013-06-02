@@ -7,11 +7,14 @@ def get_vids
    user= current_user.email
    name= params[:name]
    stream=Stream.where({:_id =>{:u =>user, :id =>name}}).first
-   vids= stream[:w][0,4]
-   if stream[:w].length>4
-      render :json => {:vids => vids, :rec => false}
+   vids= stream[:w]
+
+   if vids.length == 0
+      render :json => {:vids => (stream[:l].keys.shuffle)[0, (stream[:l].length>3? 3: stream[:l].length)], :rec => true}
+   elsif vids.length <6
+      render :json => {:vids => vids[0,(vids.length<3? vids.length-1: 3)], :rec => true}
    else
-      render :json => {:vids => vids, :rec => true}
+      render :json => {:vids => vids[0,3], :rec => false}
 
    end
 end
@@ -47,7 +50,7 @@ def create_stream
    stream=( {:_id=> {'u' =>user, 'id' =>name},
      :bw =>{}, :du => {'ps' => 0, 'sx' => 0, 'sx2' => 0,
      'm' => 0, 'sd' => 0}, :mw =>{}, :cs => {}, :v => [], 
-     :l => {},:d => {}, :w =>[] })
+     :l => {},:d => {}, :w =>[], :curr => false, :rec =>true })
 
    for id in videos
       add_video(id, stream)
@@ -188,7 +191,18 @@ end
 def rec_vids (name)
    user=current_user.email
    strm= Stream.where({:_id=> {:u =>user, :id =>name}}).first
-   videos=Video.any_in({:k => strm[:bw].keys}).not_in({:_id =>strm[:d].keys}).not_in({:_id =>strm[:w]}).not_in({:_id =>strm[:v]})
+   strm.set(:rec, true)
+   if (strm["curr"]==nil)
+      strm.set(:cur, false)
+   end
+   strm.save
+   return true
+=begin
+   if (strm[:w].length >6)
+      return -1
+   end
+   videos=Video.where({"$and" => [{:k =>{"$in" => strm[:bw].keys}},{:_id =>{"$nin" => strm[:d].keys}}, { :_id =>{"$nin" => strm[:w]}}, { :_id =>{"$nin" => strm[:v]}}]}) 
+   logger.info videos.count
    sd= strm[:du]["sd"]
    if sd<3
       nsd= strm[:du]["m"]*0.1
@@ -219,8 +233,13 @@ def rec_vids (name)
       scores.push({:count => count,:video => video})
    end
    scores=scores.sort{|a,b| b[:count] <=> a[:count] }
-   Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, scores[0,5].map{|a| a[:video]["_id"]})
+  
+   rec = Stream.where({:_id=> {:u =>user, :id =>name}}).first
+   if (rec[:w].length<6)
+      Stream.where({:_id=> {:u =>user, :id =>name}}).push_all(:w, scores[0,5].map{|a| a[:video]["_id"]})
+   end
    return scores[0,6]
+=end
 end
 
 def watched 
@@ -229,7 +248,7 @@ def watched
    stream= Stream.where({:_id =>{:u => user, :id => name}}).first
    vid=stream.w.shift
    stream.v.push(vid)
-   while stream.v.length >30
+   while stream.v.length >60
       stream.v.shift
    end
    val=stream.save!

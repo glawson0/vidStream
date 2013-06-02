@@ -121,7 +121,7 @@
       html += '<input type="button" id=nexter value="Next"/>';
       html += '<input type="button" id=disliker value="Dislike"/>';
       html += '<input type="button" id=deleter value="Delete"/>';
-      html += '<input type="textfield" id=vurl />';
+      html += '<div> <input type="textfield" id="vurl" class=not /> </div>';
       html += '<input type="button" id=adder value="Add Video"/>';
       $('#'+event.target.id).html(html);
       var params = {allowScriptAccess: "always" };
@@ -132,6 +132,7 @@
       $('#nexter').click(function() {loadNewVideo();return false;});
       $('#deleter').click(function() {deleteStream(); return false;});
       $('#disliker').click(function() {elems[$(".bigbox").attr('id')].dislike();loadNewVideo();return false;});
+      $('#vurl').click(function (){return false})
       $('#adder').click(function() {elems[$(".bigbox").attr('id')].add(getTag($('#vurl').val())); return false;});
       }
       function unloadContent(id,target){

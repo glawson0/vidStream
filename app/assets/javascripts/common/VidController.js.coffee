@@ -46,10 +46,16 @@ class VidController
     @vidList.push(tag)
  
   add:(id) ->
-   $.ajax
-     url: "/streams/a_add_video"
-     data: {'name':@name, id}
-
+    if id!=null
+      $.ajax 
+        url: "/streams/like"
+        data: {'name': @name, 'id': id}
+        dataType: "json"
+      $('#vurl').val("added")
+    else
+      $('#vurl').val("bad URL")
+    false
+  
   like: () ->
     $.ajax 
       url: "/streams/like"
