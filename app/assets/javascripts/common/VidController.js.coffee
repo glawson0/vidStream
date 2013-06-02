@@ -7,7 +7,7 @@ class VidController
   @liked=false
    
   getSuccess: (data) ->
-    if data['vids'][0]['v']==@previous
+    if !!data['vids'][0] && data['vids'][0]['v']==@previous
       @nextVideo()
     else    
      @vidList=@vidList.concat(data['vids'])

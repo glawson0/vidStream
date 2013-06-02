@@ -190,12 +190,15 @@ end
 def rec_vids (name)
    user=current_user.email
    strm= Stream.where({:_id=> {:u =>user, :id =>name}}).first
-   if not strm["rec"]
-      strm.set(:rec, true)
-      strm.save
+   strm.set(:rec, true)
+   if not strm["cur"]
+      strm.set(:cur, false)
    end
+   strm.save
    if fork.nil?
+      logger.info "\nFORKING NOW\n"
       exec("~glawson/vidStream/recScript/recomender.py")
+      abort("proc done")
    end
    return true
 =begin
@@ -248,12 +251,16 @@ def watched
    name=params[:name]
    stream= Stream.where({:_id =>{:u => user, :id => name}}).first
    vid=stream.w.shift
-   stream.v.push(vid)
-   while stream.v.length >60
-      stream.v.shift
+   if (!vid)
+      render :json => {"return" => false}
+   else
+      stream.v.push(vid)
+      while stream.v.length >60
+         stream.v.shift
+      end
+      val=stream.save!
+      render :json => {"return" => val}
    end
-   val=stream.save!
-   render :json => {"return" => val}
 end
 
 end
