@@ -191,11 +191,10 @@ end
 def rec_vids (name)
    user=current_user.email
    strm= Stream.where({:_id=> {:u =>user, :id =>name}}).first
-   strm.set(:rec, true)
-   if (strm["curr"]==nil)
-      strm.set(:cur, false)
+   if not strm["rec"]
+      strm.set(:rec, true)
+      strm.save
    end
-   strm.save
    return true
 =begin
    if (strm[:w].length >6)
