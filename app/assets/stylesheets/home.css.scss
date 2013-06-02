@@ -34,7 +34,7 @@ margin-right:auto;
   top:50%;
   left:50%;
   position:absolute;
-  margin: -175px 0 0 -360px;
+  margin: -225px 0 0 -360px;
   width:720px;
   background-color:#3d4573;
   height:350px;
@@ -52,15 +52,17 @@ margin-right:auto;
   
 }
 .hleft li {
-  font-size:20px;
   margin: 0 0 25px 20px;
 }
 .hleft ol {
   -webkit-border-radius:10px;
   padding:20px;
   background-color:#87AFC9;
-  text-shadow: 1px 1px 1px #DDD;
+  text-shadow: 1px 1px 3px #000;
   font-weight:bold;
+  color:white;
+  text-align:center;
+  font-size:20px;
 }
 .hright{
   background-color:#416C85;
